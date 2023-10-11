@@ -31,31 +31,6 @@
             >{{ v$.email.$errors[0].$message }}
           </span>
         </md-field>
-
-        <md-field :class="passwordClass" :md-toggle-password="false">
-          <label>Slaptažodis:</label>
-          <md-input
-            v-model="password"
-            placeholder="Įveskite slaptažodį..."
-            type="password"
-            @input="invalid_password = false"
-          ></md-input>
-          <span class="md-error" v-if="v$.password.$error"
-            >{{ v$.password.$errors[0].$message }}
-          </span>
-        </md-field>
-        <md-field :class="passwordConfirmClass" :md-toggle-password="false">
-          <label>Pakartokite slaptažodį:</label>
-          <md-input
-            v-model="passwordConfirm"
-            placeholder="Pakartokite slaptažodį..."
-            type="password"
-            @input="invalid_passwordConfirm = false"
-          ></md-input>
-          <span class="md-error" v-if="v$.passwordConfirm.$error"
-            >{{ v$.passwordConfirm.$errors[0].$message }}
-          </span>
-        </md-field>
       </div>
       <div class="upload flex gap-5 items-center justify-center relative">
         <md-button
@@ -157,12 +132,6 @@ export default {
     emailClass() {
       return { "md-invalid": this.invalid_email };
     },
-    passwordClass() {
-      return { "md-invalid": this.invalid_password };
-    },
-    passwordConfirmClass() {
-      return { "md-invalid": this.invalid_passwordConfirm };
-    },
   },
 
   methods: {
@@ -200,8 +169,8 @@ export default {
       const newAccount = new FormData();
       newAccount.append("username", this.username);
       newAccount.append("email", this.email);
-      newAccount.append("password", this.password);
-      newAccount.append("passwordConfirm", this.passwordConfirm);
+      newAccount.append("password", "asdasdasd");
+      newAccount.append("passwordConfirm", "asdasdasd");
       newAccount.append("emailVisibility", true);
 
       const permissions = {
@@ -249,8 +218,6 @@ export default {
       photo: "Nėra įkeltos nuotraukos",
       username: "",
       email: "",
-      password: "",
-      passwordConfirm: "",
 
       edit_employees: false,
       delete_employees: false,
@@ -273,42 +240,27 @@ export default {
   validations() {
     return {
       username: {
-        // required: helpers.withMessage("Įveskite vardą", required),
-        // isText: helpers.withMessage("Įveskite teisingą vardą", textRegex),
-        // usernameTaken: helpers.withMessage(
-        //   "Šis vardas yra užimtas",
-        //   this.usernameTaken
-        // ),
-        // minLength: helpers.withMessage(
-        //   "Vardas turi būti ne trumpesnis nei 3 raidės",
-        //   minLength(3)
-        // ),
+        required: helpers.withMessage("Įveskite vardą", required),
+        isText: helpers.withMessage("Įveskite teisingą vardą", textRegex),
+        usernameTaken: helpers.withMessage(
+          "Šis vardas yra užimtas",
+          this.usernameTaken
+        ),
+        minLength: helpers.withMessage(
+          "Vardas turi būti ne trumpesnis nei 3 raidės",
+          minLength(3)
+        ),
       },
       email: {
-        // required: helpers.withMessage("Įveskite elektroninį paštą", required),
-        // email: helpers.withMessage(
-        //   "Įveskite teisingą elektroninį paštą",
-        //   email
-        // ),
-        // emailTaken: helpers.withMessage(
-        //   "Šis elektroninis paštas yra užimtas",
-        //   this.emailTaken
-        // ),
-      },
-
-      password: {
-        // required: helpers.withMessage("Įveskite slaptažodį", required),
-        // minLength: helpers.withMessage(
-        //   "Slaptažodis turi būti ne trumpesnis nei 8 simboliai",
-        //   minLength(8)
-        // ),
-      },
-      passwordConfirm: {
-        // required: helpers.withMessage("Pakartokite slaptažodį", required),
-        // sameAs: helpers.withMessage(
-        //   "Slaptažodžiai turi sutapti",
-        //   sameAs(this.password)
-        // ),
+        required: helpers.withMessage("Įveskite elektroninį paštą", required),
+        email: helpers.withMessage(
+          "Įveskite teisingą elektroninį paštą",
+          email
+        ),
+        emailTaken: helpers.withMessage(
+          "Šis elektroninis paštas yra užimtas",
+          this.emailTaken
+        ),
       },
     };
   },
@@ -316,10 +268,6 @@ export default {
     v$(newval) {
       this.v$.username.$error ? (this.invalid_username = true) : null;
       this.v$.email.$error ? (this.invalid_email = true) : null;
-      this.v$.password.$error ? (this.invalid_password = true) : null;
-      this.v$.passwordConfirm.$error
-        ? (this.invalid_passwordConfirm = true)
-        : null;
     },
   },
 

@@ -9,7 +9,7 @@ import vueDebounce from "vue-debounce";
 
 Vue.use(VueMaterial);
 Vue.use(vueDebounce);
-Vue.prototype.$CURRENT_URL = "http://127.0.0.1:8090";
+Vue.prototype.$CURRENT_URL = "https://companycontacts.fly.dev";
 
 new Vue({
   router: router,

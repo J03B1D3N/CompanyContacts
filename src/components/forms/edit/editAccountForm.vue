@@ -265,12 +265,16 @@ export default {
       }
     },
     emailTaken(email) {
-      return this.allUsers.some((user) => user.email === email);
+      return this.allUsers.some(
+        (user) => user.email.toLowerCase() === email.toLowerCase()
+      );
     },
     usernameTaken(username) {
       return username === this.formData.oldUsername
         ? true
-        : !this.allUsers.some((user) => user.username === username);
+        : !this.allUsers.some(
+            (user) => user.username.toLowerCase() === username.toLowerCase()
+          );
     },
   },
 
