@@ -56,6 +56,7 @@ export default {
       const allUsers = await this.queryPaginatedData("users", 1, 200);
       commit("SET_ALL_USERS", allUsers.items);
     },
+
     async updateUser({ dispatch }, userAndPermissions) {
       try {
         const user = await this.updateRecord(
@@ -70,7 +71,6 @@ export default {
         );
 
         dispatch("getUsers");
-        dispatch("getAllUsers");
         dispatch("pushToQueue", {
           message: "Paskyros duomenys redaguoti sėkmingai",
           status: "success",
@@ -81,6 +81,7 @@ export default {
           status: "failure",
         });
       } finally {
+        await dispatch("getAllUsers");
         dispatch("setModal", {});
       }
     },
@@ -111,13 +112,13 @@ export default {
           message: "Paskyra ištrinta sėkmingai",
           status: "success",
         });
-        dispatch("getAllUsers");
       } catch (error) {
         dispatch("pushToQueue", {
           message: "Nepavyko ištrinti paskyros",
           status: "failure",
         });
       } finally {
+        await dispatch("getAllUsers");
         dispatch("setPopUpComponent", {});
       }
     },
@@ -134,7 +135,6 @@ export default {
           status: "success",
         });
         dispatch("getUsers");
-        dispatch("getAllUsers");
         await pb
           .collection("users")
           .requestPasswordReset(user.newAccount.get("email"));
@@ -145,6 +145,7 @@ export default {
           status: "failure",
         });
       } finally {
+        await dispatch("getAllUsers");
         dispatch("setModal", {});
       }
     },
