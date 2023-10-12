@@ -1,6 +1,9 @@
 <template>
   <div class="display flex flex-col justify-start gap-5">
-    <div class="total">iš viso rasta: {{ users.totalItems - 1 }}</div>
+    <div class="total">
+      iš viso rasta:
+      {{ users.totalItems === 0 ? users.totalItems : users.totalItems - 1 }}
+    </div>
 
     <md-table>
       <md-table-row>

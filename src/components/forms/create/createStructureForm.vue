@@ -65,7 +65,6 @@
               <md-input
                 :placeholder="'Įveskite pavadinimą'"
                 v-model="structureName"
-                @keydown="listenForEnter"
                 maxlength="40"
                 @input="structureName_invalid = false"
               ></md-input>
@@ -166,6 +165,7 @@ export default {
   },
   created() {
     pb.autoCancellation(false);
+    window.addEventListener("keydown", this.listenForEnter);
   },
   components: {
     FilterVue,
@@ -462,6 +462,7 @@ export default {
   },
 
   beforeDestroy() {
+    window.removeEventListener("keydown", this.listenForEnter);
     pb.autoCancellation(true);
     this.SET_STRUCTURE_BELONGS_TO([]);
     this.SET_CHOICE_OPTIONS_FOR_STRUCTURE([]);

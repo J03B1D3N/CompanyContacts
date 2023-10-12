@@ -58,6 +58,7 @@ export default {
         commit("SET_COMPANIES", companies);
         return companies;
       } catch (error) {
+        console.log(error);
         dispatch("pushToQueue", {
           message: "Nepavyko gauti kompanijų duomenų iš duomenų bazės",
           status: "failure",
@@ -85,12 +86,14 @@ export default {
           message: "Kompanija redaguota sėkmingai",
           status: "success",
         });
-        dispatch("getCompaniesNameCheck");
       } catch (error) {
         dispatch("pushToQueue", {
           message: "Kompanijos redaguoti nepavyko",
           status: "failure",
         });
+      } finally {
+        await dispatch("getCompaniesNameCheck");
+        dispatch("setModal", {});
       }
     },
 
@@ -141,13 +144,13 @@ export default {
             dispatch("getGroups");
           }
         } else dispatch("getCompanies");
-        dispatch("getCompaniesNameCheck");
       } catch (error) {
         dispatch("pushToQueue", {
           message: "Kompanijos ištrinti nepavyko",
           status: "failure",
         });
       } finally {
+        await dispatch("getCompaniesNameCheck");
         dispatch("setPopUpComponent", {});
       }
     },
@@ -163,13 +166,14 @@ export default {
           status: "success",
         });
         commit("SET_STRUCTURE_BELONGS_TO", null);
-        dispatch("setModal", {});
-        dispatch("getCompaniesNameCheck");
       } catch (error) {
         dispatch("pushToQueue", {
           message: "Kompanijos sukurti nepavyko",
           status: "failure",
         });
+      } finally {
+        await dispatch("getCompaniesNameCheck");
+        dispatch("setModal", {});
       }
     },
 

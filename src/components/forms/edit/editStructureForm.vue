@@ -69,7 +69,6 @@
               <md-input
                 :placeholder="'Įveskite pavadinimą'"
                 v-model="formData.structureName"
-                @keydown="listenForEnter"
                 maxlength="40"
                 @input="structureName_invalid = false"
               ></md-input>
@@ -181,6 +180,8 @@ export default {
     return { v$: useVuelidate() };
   },
   async created() {
+    window.addEventListener("keydown", this.listenForEnter);
+
     if (this.modal.data.collectionName === "offices") {
       this.formData.newStructureType = "office";
       await this.fetchOptionsForStructure({
@@ -586,12 +587,13 @@ export default {
 
     listenForEnter(e) {
       if (e.keyCode === 13) {
-        this.handleCreate();
+        this.handleEdit();
       }
     },
   },
 
   beforeDestroy() {
+    window.removeEventListener("keydown", this.listenForEnter);
     this.SET_STRUCTURE_BELONGS_TO([]);
     this.SET_CHOICE_OPTIONS_FOR_STRUCTURE([]);
     this.pb.autoCancellation(true);

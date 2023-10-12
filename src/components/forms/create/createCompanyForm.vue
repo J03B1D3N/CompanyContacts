@@ -36,10 +36,14 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import cancel from "../../../assets/cancel.svg";
+import { pb } from "../../../lib/pocketbase";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { companyRegex } from "./../validation";
 export default {
+  created() {
+    pb.autoCancellation(false);
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -130,6 +134,9 @@ export default {
 
   mounted() {
     this.$refs.companyInput.$el.focus();
+  },
+  beforeDestroy() {
+    pb.autoCancellation(true);
   },
 };
 </script>

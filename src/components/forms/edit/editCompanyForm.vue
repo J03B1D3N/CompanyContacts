@@ -37,6 +37,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import cancel from "../../../assets/cancel.svg";
+import { pb } from "../../../lib/pocketbase";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { companyRegex } from "./../validation";
@@ -89,7 +90,6 @@ export default {
         },
       };
       this.updateCompany(updateCompany);
-      this.setModal({});
     },
 
     handleCancel() {
@@ -144,8 +144,12 @@ export default {
   },
 
   created() {
+    pb.autoCancellation(false);
     this.companyName = this.modal.data.name;
     this.oldCompanyName = this.modal.data.name;
+  },
+  beforeDestroy() {
+    pb.autoCancellation(true);
   },
 
   mounted() {

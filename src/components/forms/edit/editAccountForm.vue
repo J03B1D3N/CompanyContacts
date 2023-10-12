@@ -20,16 +20,6 @@
             >{{ v$.formData.username.$errors[0].$message }}
           </span>
         </md-field>
-        <md-field :class="emailClass">
-          <label>Elektroninis paštas:</label>
-          <md-input
-            disabled
-            v-model="formData.email"
-            maxlength="40"
-            placeholder="Įveskite el. paštą..."
-            @input="formData.invalid_email = false"
-          ></md-input>
-        </md-field>
       </div>
       <div class="upload flex gap-5 items-center justify-center relative">
         <md-button
@@ -264,11 +254,6 @@ export default {
         this.handleSubmit();
       }
     },
-    emailTaken(email) {
-      return this.allUsers.some(
-        (user) => user.email.toLowerCase() === email.toLowerCase()
-      );
-    },
     usernameTaken(username) {
       return username === this.formData.oldUsername
         ? true
@@ -284,7 +269,6 @@ export default {
         photo: "Nėra įkeltos nuotraukos",
         username: "",
         oldUsername: "",
-        email: "",
 
         edit_employees: false,
         delete_employees: false,
@@ -297,10 +281,6 @@ export default {
         cancel,
 
         invalid_username: false,
-        invalid_email: false,
-        invalid_password: false,
-        invalid_passwordConfirm: false,
-        invalid_oldPassword: false,
       },
       editDisabled: true,
       pb,
@@ -321,17 +301,6 @@ export default {
             minLength(3)
           ),
         },
-        email: {
-          required: helpers.withMessage("Įveskite elektroninį paštą", required),
-          email: helpers.withMessage(
-            "Įveskite teisingą elektroninį paštą",
-            email
-          ),
-          emailTaken: helpers.withMessage(
-            "Šis elektroninis paštas yra užimtas",
-            this.emailTaken
-          ),
-        },
       },
     };
   },
@@ -347,9 +316,6 @@ export default {
     v$(newval) {
       this.v$.formData.username.$error
         ? (this.formData.invalid_username = true)
-        : null;
-      this.v$.formData.email.$error
-        ? (this.formData.invalid_email = true)
         : null;
     },
   },

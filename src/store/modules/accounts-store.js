@@ -53,8 +53,17 @@ export default {
       }
     },
     async getAllUsers({ commit }) {
-      const allUsers = await this.queryPaginatedData("users", 1, 200);
-      commit("SET_ALL_USERS", allUsers.items);
+      try {
+        const allUsers = await this.queryPaginatedData("users", 1, 200);
+        commit("SET_ALL_USERS", allUsers.items);
+      } catch (error) {
+        commit("SET_ALL_USERS", {
+          items: [],
+          page: 1,
+          totalPages: 1,
+          totalItems: 0,
+        });
+      }
     },
 
     async updateUser({ dispatch }, userAndPermissions) {
