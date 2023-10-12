@@ -27,6 +27,8 @@ vuelidate,
 tailwind,
 vue materials, 
 vue router,
+fly.io,
+docker,
 and vuex for state management.
 
 WHAT WOULD I DO DIFFERENT:
