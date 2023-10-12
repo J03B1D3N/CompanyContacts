@@ -165,8 +165,8 @@ export default {
           message: "Kompanija sukurta sėkmingai",
           status: "success",
         });
-        commit("SET_STRUCTURE_BELONGS_TO", null);
       } catch (error) {
+        console.log(error);
         dispatch("pushToQueue", {
           message: "Kompanijos sukurti nepavyko",
           status: "failure",

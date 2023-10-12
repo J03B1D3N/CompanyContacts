@@ -12,7 +12,6 @@
             :placeholder="'Įveskite kompanijos pavadinimą...'"
             v-model="companyName"
             ref="companyInput"
-            @keydown="listenForEnter"
             maxlength="128"
           ></md-input>
           <span class="md-error" v-if="v$.companyName.$error"
@@ -144,11 +143,13 @@ export default {
   },
 
   created() {
+    window.addEventListener("keydown", this.listenForEnter);
     pb.autoCancellation(false);
     this.companyName = this.modal.data.name;
     this.oldCompanyName = this.modal.data.name;
   },
   beforeDestroy() {
+    window.removeEventListener("keydown", this.listenForEnter);
     pb.autoCancellation(true);
   },
 

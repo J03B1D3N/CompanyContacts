@@ -9,7 +9,6 @@
             :placeholder="'Įveskite kompanijos pavadinimą...'"
             v-model="companyName"
             ref="companyInput"
-            @keydown="listenForEnter"
             maxlength="128"
           ></md-input>
           <span class="md-error" v-if="v$.companyName.$error"
@@ -43,6 +42,7 @@ import { companyRegex } from "./../validation";
 export default {
   created() {
     pb.autoCancellation(false);
+    window.addEventListener("keydown", this.listenForEnter);
   },
   setup() {
     return { v$: useVuelidate() };
@@ -96,13 +96,7 @@ export default {
       } else return true;
     },
 
-    ...mapActions(["setModal", "createCompany", "pushToQueue"]),
-
-    created_at() {
-      const now = new Date();
-      const isoTimestamp = now.toISOString();
-      return isoTimestamp;
-    },
+    ...mapActions(["setModal", "createCompany"]),
 
     async handleCreate() {
       const isFormCorrect = await this.v$.$validate();
@@ -111,14 +105,10 @@ export default {
         this.$refs.companyInput.$el.focus();
         return;
       }
-
       const newCompany = {
         name: this.companyName,
-        created: this.created_at(),
-        updated: this.created_at(),
       };
       await this.createCompany(newCompany);
-      this.setModal({});
     },
 
     handleCancel() {
@@ -137,6 +127,7 @@ export default {
   },
   beforeDestroy() {
     pb.autoCancellation(true);
+    window.removeEventListener("keydown", this.listenForEnter);
   },
 };
 </script>
