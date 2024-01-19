@@ -1,6 +1,6 @@
 COMPANY CONTACTS
 
-This is an app I made during my front-end internship at Teltonika Networks IoT Academy.
+This is an app I made during my front-end internship at Teltonika IoT Academy.
 
 DESIGN:
 
